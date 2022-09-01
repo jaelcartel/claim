@@ -79,6 +79,7 @@ export default function Index(props: Props) {
 
   return (
     <>
+    <div className="bg-gradient-to-r from-violet-500 to-fuchsia-500">
       <div className="flex flex-col h-screen justify-between layout font-primary">
         <Head>
           <title>Faucet for Cardano Native Assets</title>
@@ -116,9 +117,8 @@ export default function Index(props: Props) {
         </main>
         <Footer />
       </div>
-   
- 
-    </>
+    </div>
+     </>
   );
 }
 
