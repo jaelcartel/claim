@@ -96,8 +96,8 @@ export default function Index(props: Props) {
         </h1> */}
         {loading ?
         <>
-        <div className="flex items-center justify-center space-x-2">
-          <div className="spinner-grow inline-block w-8 h-8 bg-current rounded-full opacity-0 text-blue-300" role="status">
+         <div className="flex items-center justify-center space-x-2">
+          <div className="spinner-grow inline-block w-10 h-10 bg-current rounded-full opacity-0 text-fuschia-400" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
         </div>
