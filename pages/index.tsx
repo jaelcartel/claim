@@ -90,9 +90,9 @@ export default function Index(props: Props) {
         </Head>
         <Header />
         <main className="flex-grow justify-center items-center p-10">
-        <h1>
+        {/* <h1>
           Hey, {props.user.username}#{props.user.discriminator}
-        </h1>
+        </h1> */}
         {loading ?
         <>
         <div className="flex items-center justify-center space-x-2">
@@ -122,20 +122,20 @@ export default function Index(props: Props) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<Props> = async function (ctx) {
+// export const getServerSideProps: GetServerSideProps<Props> = async function (ctx) {
   
-  const { parseUser } = await import( "../utils/parse-user")
+//   const { parseUser } = await import( "../utils/parse-user")
   
-  const user = parseUser(ctx);
+//   const user = parseUser(ctx);
 
-  if (!user) {
-    return {
-      redirect: {
-        destination: "/api/oauth",
-        permanent: false,
-      },
-    };
-  }
+//   if (!user) {
+//     return {
+//       redirect: {
+//         destination: "/api/oauth",
+//         permanent: false,
+//       },
+//     };
+//   }
 
-  return { props: { user } };
-};
+//   return { props: { user } };
+// };
