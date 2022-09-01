@@ -47,7 +47,7 @@ export default function Index(props: Props) {
   }
 
   const checkClaim = async () => {
-    setLoading(true)    
+    setLoading(false) //🐞changed to false for development. Loading bar always showing when ran in development   
     const claimRes: ClaimRes = await fetch('/api/toclaim').then(res => {
       return res.json()
     }).then(json => json)
