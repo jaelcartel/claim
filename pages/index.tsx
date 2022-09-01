@@ -105,7 +105,7 @@ export default function Index(props: Props) {
         : ''}
         {canClaim ? 
           <>
-            <h2>{claimStatus === '' ? "You have unclaimed tokens! ✨ 🎈" : claimStatus}</h2>
+            <h2>{claimStatus === '' ? "You have unclaimed Discoin! 🤝" : claimStatus}</h2>
             <WalletConnect successCallback={txSubmittedCallback}/>
           </>
           : 
