@@ -82,12 +82,12 @@ export default function Index(props: Props) {
     <div className="bg-gradient-to-r from-violet-500 to-fuchsia-500">
       <div className="flex flex-col h-screen justify-between layout font-primary">
         <Head>
-          <title>Faucet for Cardano Native Assets</title>
-          <meta
+           <title>Discoin Claim</title>
+                    <meta
             name="description"
-            content="Faucet for Cardano native assets - by ADAO"
+            content="Discoin Claim"
           />
-          <link rel="icon" href="/ADAO - Full Logo - Blue Gradient.svg" />
+          <link rel="icon" href="/Cartel.jpg" />
         </Head>
         <Header />
         <main className="flex-grow justify-center items-center p-10">
