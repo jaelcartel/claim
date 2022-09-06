@@ -6,18 +6,9 @@ const _ = require('lodash')
 async function main() {
 
   const seed = JSON.parse(fs.readFileSync("prisma/seed.json"))
-  // let test = await prisma.whitelistedUser.create({
-  //   data: {
-  //     id: 'asdasdasd',
-  //     quantity: 123,
-  //     claimed: true
-  //   }
-  // })
-  // console.log(seed.s)
-  // console.log(test)
+
   _.each(seed, async (values, address) => {
     if (values.eligible) {
-      // console.log(address)
         let record = await prisma.whitelistedUser.create({
             data: {
                 id: address,
