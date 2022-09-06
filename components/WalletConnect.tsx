@@ -177,7 +177,7 @@ export default function WalletConnect({successCallback} : {successCallback: (txi
                     : 
                     <div>
                         <button onClick={() => {result == true ? toast("error", "Accept the Terms of Service to Claim") : makeTx(); setResult(true)}}
-                            className="m-2 p-10 text-white font-bold rounded-xl transition-all duration-500 bg-gradient-to-r from-violet-500 via-purple-500 to-pink-500 hover:to-fuchsia-500 bg-size-200 bg-pos-0 hover:bg-pos-100">
+                            className="m-2 p-10 text-white font-bold rounded-xl drop-shadow-lg transition-all duration-500 bg-gradient-to-r from-purple-700 via-purple-400 to-purple-500 hover:to-purple-600 bg-size-200 bg-pos-0 hover:bg-pos-100">
                         <h2>
                             Claim
                         </h2>
