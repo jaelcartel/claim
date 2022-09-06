@@ -15,7 +15,7 @@ export default function WalletDropdown({enableWallet, address}
                 {address === '' ? 'Get started by connecting your wallet' : ellipsisAddress}
             </h2>
             <ChevronDownIcon
-              className="w-5 h-5 ml-2 -mr-1 text-blue-200 hover:text-blue-100"
+              className="w-5 h-5 ml-2 -mr-1 text-purple-200 hover:text-purple-100"
               aria-hidden="true"
             />
         </Menu.Button>
@@ -32,7 +32,7 @@ export default function WalletDropdown({enableWallet, address}
                 <Menu.Item>
                     {({ active }) => (
                         <button className={`${
-                            active ? 'bg-blue-500 text-white' : 'text-gray-900'
+                            active ? 'bg-purple-400 text-white' : 'text-gray-900'
                             } group flex rounded-md items-center w-full px-2 py-2 text-sm`} 
                             onClick={() => enableWallet('nami')}
                         >
@@ -43,7 +43,7 @@ export default function WalletDropdown({enableWallet, address}
                 <Menu.Item>
                     {({ active }) => (
                     <button className={`${
-                        active ? 'bg-blue-500 text-white' : 'text-gray-900'
+                        active ? 'bg-purple-400 text-white' : 'text-gray-900'
                         } group flex rounded-md items-center w-full px-2 py-2 text-sm`} 
                         onClick={() => enableWallet('eternl')}
                     >
@@ -54,7 +54,7 @@ export default function WalletDropdown({enableWallet, address}
                 <Menu.Item>
                     {({ active }) => (
                     <button className={`${
-                        active ? 'bg-blue-500 text-white' : 'text-gray-900'
+                        active ? 'bg-purple-400 text-white' : 'text-gray-900'
                         } group flex rounded-md items-center w-full px-2 py-2 text-sm`} 
                         onClick={() => enableWallet('flint')}
                     >
