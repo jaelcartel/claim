@@ -3,34 +3,21 @@ import Image from 'next/image';
 
 export default function Footer() {
     return (
-        <footer>
+        <footer className="footer p-10 bg-neutral text-neutral-content">
             <div className='flex justify-center border-t-2 p-4'>
-            Powered by{``}
+
+            <div className='p-1' ></div>
             <span>
             <a
-                href="https://cardano.org"
+                href="https://github.com/jaelcartel/claim"
                 target="_blank"
                 rel="noopener noreferrer"
             >
                 <Image
-                src="/cardano-logo.svg"
-                alt="Cardano Logo"
-                width={24}
-                height={24}
-                />
-            </a>
-            </span>
-            <span>
-            <a
-                href="https://theadadao.com"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                <Image
-                src="/adao-full-logo.svg"
-                alt="Cardano Logo"
-                width={24}
-                height={24}
+                src="/CartelLogoWhite.svg"
+                alt="Cartel Logo"
+                width={40}
+                height={40}
                 />
             </a>
             </span>

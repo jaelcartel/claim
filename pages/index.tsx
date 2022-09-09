@@ -47,7 +47,7 @@ export default function Index(props: Props) {
   }
 
   const checkClaim = async () => {
-    setLoading(true)    
+    setLoading(false) //🐞changed to false for development. Loading bar always showing when ran in development   
     const claimRes: ClaimRes = await fetch('/api/toclaim').then(res => {
       return res.json()
     }).then(json => json)
@@ -79,24 +79,25 @@ export default function Index(props: Props) {
 
   return (
     <>
+    <div className="bg-gradient-to-r from-violet-500 to-fuchsia-500">
       <div className="flex flex-col h-screen justify-between layout font-primary">
         <Head>
-          <title>Faucet for Cardano Native Assets</title>
-          <meta
+           <title>Discoin Claim</title>
+                    <meta
             name="description"
-            content="Faucet for Cardano native assets - by ADAO"
+            content="Discoin Claim"
           />
-          <link rel="icon" href="/ADAO - Full Logo - Blue Gradient.svg" />
+          <link rel="icon" href="/Cartel.jpg" />
         </Head>
         <Header />
-        <main className="flex-grow justify-center items-center p-10">
-        <h1>
+        <main className="flex-grow justify-center items-center pt-20">
+        {/* <h1>
           Hey, {props.user.username}#{props.user.discriminator}
-        </h1>
+        </h1> */}
         {loading ?
         <>
-        <div className="flex items-center justify-center space-x-2">
-          <div className="spinner-grow inline-block w-8 h-8 bg-current rounded-full opacity-0 text-blue-300" role="status">
+         <div className="flex items-center justify-center space-x-2">
+          <div className="spinner-grow inline-block w-10 h-10 bg-current rounded-full opacity-0 text-fuschia-400" role="status">
             <span className="visually-hidden">Loading...</span>
           </div>
         </div>
@@ -104,38 +105,44 @@ export default function Index(props: Props) {
         : ''}
         {canClaim ? 
           <>
-            <h2>{claimStatus === '' ? "You have unclaimed tokens! ✨ 🎈" : claimStatus}</h2>
+            <h2>{claimStatus === '' ? "You have unclaimed Discoin! 🤝" : claimStatus}</h2>
             <WalletConnect successCallback={txSubmittedCallback}/>
           </>
           : 
           <>
-            <h2>{claimStatus === '' ? "Nothing to claim right now 😿" : claimStatus}</h2>
+            <h2>{claimStatus === '' ? "Enter Cardano Wallet Address" : claimStatus}</h2>
+              <div className= 'justify center pt-2 pl-20 pr-20 pb-8 text-black'>
+                <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-4 pr-3 shadow-sm focus:outline-none focus:border-pink-200 focus:ring-pink-200 focus:ring-1 sm:text-sm" placeholder="addr1..." type="text" name="search"/>
+              <div className="flex space-x-2 justify-center pt-4">
+                  <button type="button" className="inline-block px-6 py-2 border-2 border-purple-400 text-white font-bold text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-10 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
+                >Check Address</button>
+              </div>
+            </div>
           </>
         }
         {claimed ? <button onClick={checkClaimStatus}>Didn't receieve the last claim?</button> : <></>}
         </main>
         <Footer />
       </div>
-   
- 
-    </>
+    </div>
+     </>
   );
 }
 
-export const getServerSideProps: GetServerSideProps<Props> = async function (ctx) {
+// export const getServerSideProps: GetServerSideProps<Props> = async function (ctx) {
   
-  const { parseUser } = await import( "../utils/parse-user")
+//   const { parseUser } = await import( "../utils/parse-user")
   
-  const user = parseUser(ctx);
+//   const user = parseUser(ctx);
 
-  if (!user) {
-    return {
-      redirect: {
-        destination: "/api/oauth",
-        permanent: false,
-      },
-    };
-  }
+//   if (!user) {
+//     return {
+//       redirect: {
+//         destination: "/api/oauth",
+//         permanent: false,
+//       },
+//     };
+//   }
 
-  return { props: { user } };
-};
+//   return { props: { user } };
+// };

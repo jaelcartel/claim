@@ -169,7 +169,7 @@ export default function WalletConnect({successCallback} : {successCallback: (txi
                     loading ?
                     <>
                         <div className="flex items-center justify-center space-x-2">
-                        <div className="spinner-grow inline-block w-8 h-8 bg-current rounded-full opacity-0 text-blue-300" role="status">
+                        <div className="spinner-grow inline-block w-10 h-10 bg-current rounded-full opacity-0 pb-2 text-purple-400" role="status">
                             <span className="visually-hidden">Loading...</span>
                         </div>
                         </div>
@@ -177,7 +177,7 @@ export default function WalletConnect({successCallback} : {successCallback: (txi
                     : 
                     <div>
                         <button onClick={() => {result == true ? toast("error", "Accept the Terms of Service to Claim") : makeTx(); setResult(true)}}
-                            className="m-2 p-10 text-black font-bold rounded-xl transition-all duration-500 bg-gradient-to-br to-blue-500 via-white from-blue-900 bg-size-200 bg-pos-0 hover:bg-pos-100">
+                            className="m-2 p-10 text-white font-bold rounded-xl drop-shadow-lg transition-all duration-500 bg-gradient-to-r from-purple-700 via-purple-400 to-purple-500 hover:to-purple-600 bg-size-200 bg-pos-0 hover:bg-pos-100">
                         <h2>
                             Claim
                         </h2>
