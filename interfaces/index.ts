@@ -12,40 +12,24 @@ export interface Amount {
     quantity: string;
 }
 
-export interface DiscordUserCookie {
-    id:            string;
-    username:      string;
-    avatar:        string;
-    discriminator: string;
-    public_flags:  number;
-    flags:         number;
-    banner:        string;
-    banner_color:  null;
-    accent_color:  null;
-    locale:        string;
-    mfa_enabled:   boolean;
-    premium_type:  number;
-    iat:           number;
-    exp:           number;
-}
-
 export interface UtxoRecord {
     id:     number
     used:   Date
-    usedById: string
+    usedById: string //addr
     txHash: string
     hash: string
     // used: boolean;
 }
 
 export interface WhitelistedUser {
-    id:     string;
+    id:     string; //addr
     claimed: boolean;
 }
 
 export interface IClaim {
+    addr: string,
     whitelisted: boolean,
-    claimed: boolean
+    claimed: boolean,
 }
 
 export interface ClaimRes {

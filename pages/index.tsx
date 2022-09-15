@@ -6,18 +6,17 @@ import { useToast } from '../hooks/useToast';
 import { ClaimRes } from '../interfaces'
 import  Header from '../components/Header'
 import Footer from '../components/Footer'
+import Claim from '../components/Claim'
 import Head from 'next/head';
 
-
-interface Props {
-  user: DiscordUser;
-}
 
 export default function Index(props: Props) {
   const [canClaim, setCanClaim] = useState(false)
   const [claimed, setClaimed] = useState(false)
   const [claimStatus, setClaimStatus] = useState('')
   const [loading, setLoading] = useState(false)
+  const [addr, setAddr] = useState('')
+  const [addrSubmit, setAddrSubmit] = useState(false)
   const toast = useToast(3000);
 
   const txSubmittedCallback = txid => {
@@ -27,7 +26,7 @@ export default function Index(props: Props) {
   }
 
   const checkClaimStatus = async () => {
-    const claimRes: ClaimRes = await fetch('/api/checkclaim').then(res => {
+    const claimRes: ClaimRes = await fetch('/api/checkclaim/'+addr).then(res => {
       return res.json()
     }).then(json => json)
 
@@ -46,9 +45,11 @@ export default function Index(props: Props) {
     } 
   }
 
-  const checkClaim = async () => {
-    setLoading(false) //🐞changed to false for development. Loading bar always showing when ran in development   
-    const claimRes: ClaimRes = await fetch('/api/toclaim').then(res => {
+  const checkClaim = async (event) => {
+    event.persist();
+    setAddrSubmit(prev => !prev)
+    setLoading(true)    
+    const claimRes: ClaimRes = await fetch('/api/toclaim/'+addr).then(res => {
       return res.json()
     }).then(json => json)
     if(claimRes.claim.whitelisted === true) {
@@ -61,7 +62,12 @@ export default function Index(props: Props) {
         setCanClaim(false)
         setClaimed(true)
       }
-    } 
+    } else {
+      toast('error', 'This address may not claim.')
+      setCanClaim(false)
+      setClaimed(false)
+      setAddrSubmit(false)
+    }
     setLoading(false)
   }
 
@@ -69,7 +75,7 @@ export default function Index(props: Props) {
     ssr: false,
   });
   useEffect(() => {
-    checkClaim()
+    //checkClaim()
 
     return () => {
       setCanClaim(false)
@@ -77,72 +83,86 @@ export default function Index(props: Props) {
     }
   }, [])
 
+
+  const handleAddr = event => {
+    event.persist();
+  
+    let value = event.target.value;
+    setAddr(value)
+  };
+
+  const handleAddrSubmit = event => {
+    event.persist();
+    setAddrSubmit(prev => !prev)
+  };
+
   return (
     <>
-    <div className="bg-gradient-to-r from-violet-500 to-fuchsia-500">
-      <div className="flex flex-col h-screen justify-between layout font-primary">
-        <Head>
-           <title>Discoin Claim</title>
-                    <meta
-            name="description"
-            content="Discoin Claim"
-          />
-          <link rel="icon" href="/Cartel.jpg" />
-        </Head>
-        <Header />
-        <main className="flex-grow justify-center items-center pt-20">
-        {/* <h1>
-          Hey, {props.user.username}#{props.user.discriminator}
-        </h1> */}
-        {loading ?
-        <>
-         <div className="flex items-center justify-center space-x-2">
-          <div className="spinner-grow inline-block w-10 h-10 bg-current rounded-full opacity-0 text-fuschia-400" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-        </>
-        : ''}
-        {canClaim ? 
-          <>
-            <h2>{claimStatus === '' ? "You have unclaimed Discoin! 🤝" : claimStatus}</h2>
-            <WalletConnect successCallback={txSubmittedCallback}/>
-          </>
-          : 
-          <>
-            <h2>{claimStatus === '' ? "Enter Cardano Wallet Address" : claimStatus}</h2>
-              <div className= 'justify center pt-2 pl-20 pr-20 pb-8 text-black'>
-                <input className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-4 pr-3 shadow-sm focus:outline-none focus:border-pink-200 focus:ring-pink-200 focus:ring-1 sm:text-sm" placeholder="addr1..." type="text" name="search"/>
-              <div className="flex space-x-2 justify-center pt-4">
-                  <button type="button" className="inline-block px-6 py-2 border-2 border-purple-400 text-white font-bold text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-10 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
-                >Check Address</button>
+        <div className="flex flex-col h-screen justify-between layout font-primary">
+          <Head>
+            <title>Faucet for Cardano Native Assets</title>
+            <meta
+              name="description"
+              content="Faucet for Cardano native assets - by ADAO"
+            />
+            <link rel="icon" href="/ADAO - Full Logo - Blue Gradient.svg" />
+          </Head>
+          <Header />
+          <main className="flex-grow justify-center items-center p-10">
+          {!addrSubmit && 
+            <div className="flex justify-center items-center">
+            <div className="bg-white p-4 w-96 rounded-md">
+              <h1 className="text-lg font-bold text-gray-500">Eligible Address</h1>
+              <div className="mt-5 mb-2 border-2 py-1 px-3 flex justify-between rounde-md rounded-md">
+                <input 
+                    id='addrInput' 
+                    name='addr' 
+                    onChange={handleAddr} 
+                    className="flex-grow outline-none text-gray-600 focus:text-blue-600" 
+                    type="text" 
+                    placeholder="Check address..." 
+                />
+                <spa onClick={checkClaim}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-400 hover:text-blue-400 transition duration-100 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </spa>
               </div>
             </div>
-          </>
+          </div>
         }
-        {claimed ? <button onClick={checkClaimStatus}>Didn't receieve the last claim?</button> : <></>}
+        {(canClaim && addr) &&
+        <>
+          <Claim />
+          <WalletConnect successCallback={txSubmittedCallback}/>
+        </>
+        }
+       
+
+        {claimed ? <button onClick={checkClaimStatus}>Check the status of a previously submitted claim for {addr}</button> : <></>}
         </main>
         <Footer />
       </div>
-    </div>
-     </>
+   
+ 
+    </>
   );
 }
 
 // export const getServerSideProps: GetServerSideProps<Props> = async function (ctx) {
   
-//   const { parseUser } = await import( "../utils/parse-user")
+//   // const { parseUser } = await import( "../utils/parse-user")
   
-//   const user = parseUser(ctx);
+//   // const user = parseUser(ctx);
 
-//   if (!user) {
-//     return {
-//       redirect: {
-//         destination: "/api/oauth",
-//         permanent: false,
-//       },
-//     };
-//   }
+//   // if (!user) {
+//   //   return {
+//   //     redirect: {
+//   //       destination: "/api/oauth",
+//   //       permanent: false,
+//   //     },
+//   //   };
+//   // }
 
-//   return { props: { user } };
+//   // return { };
 // };

@@ -7,9 +7,11 @@ import { UTxO } from 'lucid-cardano';
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
 
-    const searchAddress = process.env.WALLET_ADDRESS
+    // const searchAddress =  process.env.WALLET_ADDRESS 
+    const searchAddress =   'addr1x95p7aqla4n0qvu0zgumlq9lccaxg4gzjs9m3az8fwkzf9ngra6plmtx7qec7y3eh7qtl336v32s99qthr6ywjavyjtq8xyeca'
     const lib = await initializeLucid(null)
     const addrUtxos: UTxO[] = await lib.provider.getUtxos(searchAddress)
+    // console.log(addrUtxos)
     if(!addrUtxos || addrUtxos.length < 1 || !addrUtxos[0].txHash) return res.status(200).json('ERROR: No utxos are currently available');
     
     const busyUtxoHashes: string[] = await getInUseHashesArray(addrUtxos.map(u => `${u.txHash}_${u.outputIndex}`))

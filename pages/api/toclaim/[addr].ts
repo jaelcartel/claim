@@ -5,13 +5,14 @@ import { userWhitelistedAndClaimed } from '../../../utils/db';
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
     let claimRes: ClaimRes
-    console.log(req.body)
+    const { addr } = req.query
+    console.log(addr)
     // return res.status(200).json(req.body)
 
-    let claim: IClaim =  {claimed: false, whitelisted: false, addr: req.body.addr}
+    let claim: IClaim =  {claimed: false, whitelisted: false, addr: String(addr)}
     // console.log(claim)
     try {
-        claim = await userWhitelistedAndClaimed(req.body.addr)
+        claim = await userWhitelistedAndClaimed(String(addr))
     } catch(err) {
         claimRes = { claim: claim, error: err }
         return res.status(200).json(claimRes);

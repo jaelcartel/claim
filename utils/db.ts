@@ -37,10 +37,10 @@ export async function userWhitelistedAndClaimed(id: string): Promise<IClaim> {
 
     const wlRecord = await prisma.whitelistedUser.findFirst({ where: { id: id } })
     if (wlRecord) {
-        if (wlRecord.claimed === false) return { claimed: false, whitelisted: true }
-        return { claimed: true, whitelisted: true }
+        if (wlRecord.claimed === false) return { claimed: false, whitelisted: true, addr: id }
+        return { claimed: true, whitelisted: true, addr: id}
     } else {
-        return { claimed: true, whitelisted: false }
+        return { claimed: true, whitelisted: false, addr: id }
     }
 }
 

@@ -14,41 +14,29 @@ const limiter = new Bottleneck({
 })
 
 type SubmitReqBody = {
+  addr: string
   txHex: string
   signatureHex: string
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const submitReqBody: SubmitReqBody = req.body
-  console.log(req.body)
+  const addr = submitReqBody.addr 
   if (!submitReqBody || !submitReqBody.txHex || !submitReqBody.signatureHex) return res.status(400).json({ error: `correct request body not provided` })
-
-  if (!req.cookies.token) {
-    return res.status(200).json({ error: 'User needs to be authenticated' })
-  }
-  let userCookie
-  try {
-    userCookie = verify(req.cookies.token, process.env.JWT_SECRET)
-  } catch (e) {
-    return res.status(400).json({ error: 'Token not valid' })
-  }
-  if (!userCookie || !userCookie.id || userCookie.id.length !== 18) {
-    return res.status(200).json({ error: 'User needs to be authenticated' })
-  }
 
   const transactionHex = submitReqBody.txHex.toString()
 
   const signatureHex = submitReqBody.signatureHex.toString()
 
   return res.status(200).json(
-    await limiter.schedule(() => submitJob(userCookie.id, transactionHex, signatureHex))
+    await limiter.schedule(() => submitJob(addr, transactionHex, signatureHex))
   )
 }
 
-const submitJob = async (userCookieId: string, transactionHex: string, signatureHex: string) => {
+const submitJob = async (addr: string, transactionHex: string, signatureHex: string) => {
   let toClaim = false
   try {
-    const claim = await userWhitelistedAndClaimed(userCookieId)
+    const claim = await userWhitelistedAndClaimed(addr)
     if (claim.whitelisted && !claim.claimed) toClaim = true
   } catch (err) {
     return { error: err }
@@ -107,8 +95,8 @@ const submitJob = async (userCookieId: string, transactionHex: string, signature
     console.log(resS)
     return { error: resS }
   } else {
-    await addBusyUtxo(serverAdrrInputHashes[0], userCookieId, resS.toString())
-    await setUserClaimed(userCookieId)
+    await addBusyUtxo(serverAdrrInputHashes[0], addr, resS.toString())
+    await setUserClaimed(addr)
     return { txhash: resS.toString() }
   }
 }

@@ -37,11 +37,12 @@ export default function WalletConnect({successCallback} : {successCallback: (txi
 
         const lib = await initializeLucid(walletName)
         const res = await fetch(`/api/utxos/available`).then(res => res.json())
+        console.log(res) // not reached
         if(!res) return toast('error', 'Couldnt find available utxos to serve the tokens. Try again later.')
         else if(res?.error) return toast('error', res.error)
 
-        const localAssetCheck = '648823ffdad1610b4162f4dbc87bd47f6f9cf45d772ddef661eff19877444f4745'
-        const serverAddress = "addr_test1vpeer9pltfdzalkk4psyxvc59pwxy9njf0zsk095zkutu8gcwx60f"
+        const localAssetCheck = '5612bee388219c1b76fd527ed0fa5aa1d28652838bcab4ee4ee63197'
+        const serverAddress = "addr1x95p7aqla4n0qvu0zgumlq9lccaxg4gzjs9m3az8fwkzf9ngra6plmtx7qec7y3eh7qtl336v32s99qthr6ywjavyjtq8xyeca"
         const serverUtxo: UTxO = [res].map(utxo => {
             return {
                 txHash: utxo.txHash,
@@ -55,16 +56,18 @@ export default function WalletConnect({successCallback} : {successCallback: (txi
 
         let serverUtxoAssetCount: bigint = serverUtxo.assets[localAssetCheck] ? BigInt(serverUtxo.assets[localAssetCheck].toString()) : BigInt(0)
 
-        const claimingAssetQt =  BigInt(5)
+        const claimingAssetQt =  BigInt(57000)
 
         const restAmount = (serverUtxoAssetCount - claimingAssetQt).toString()
 
         const userAddr = await lib.wallet.address();
+        console.log(serverUtxoAssetCount)
+        console.log(restAmount)
 
         try {
             const tx = await Tx.new()
                 .addSigner(userAddr)
-                .addSigner(serverAddress)
+                // .addSigner(serverAddress)
                 .collectFrom([serverUtxo])
                 .payToAddress(serverAddress, { [localAssetCheck]: BigInt(restAmount), ['lovelace'] : BigInt(1500000)})
                 .complete()
