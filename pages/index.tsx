@@ -98,27 +98,28 @@ export default function Index(props: Props) {
 
   return (
     <>
+      <div className="bg-gradient-to-r from-violet-500 to-fuchsia-500">    
         <div className="flex flex-col h-screen justify-between layout font-primary">
           <Head>
-            <title>Faucet for Cardano Native Assets</title>
+            <title>Discoin Faucet</title>
             <meta
               name="description"
-              content="Faucet for Cardano native assets - by ADAO"
+              content="Discoin Faucet by the Jael Cartel"
             />
-            <link rel="icon" href="/ADAO - Full Logo - Blue Gradient.svg" />
+            <link rel="icon" href="/Cartel.jpg" />
           </Head>
           <Header />
           <main className="flex-grow justify-center items-center p-10">
           {!addrSubmit && 
             <div className="flex justify-center items-center">
-            <div className="bg-white p-4 w-96 rounded-md">
+            <div className="bg-white ring-2 drop-shadow-lg ring-violet-200 p-4 w-6/12 rounded-md">
               <h1 className="text-lg font-bold text-gray-500">Eligible Address</h1>
               <div className="mt-5 mb-2 border-2 py-1 px-3 flex justify-between rounde-md rounded-md">
                 <input 
                     id='addrInput' 
                     name='addr' 
                     onChange={handleAddr} 
-                    className="flex-grow outline-none text-gray-600 focus:text-blue-600" 
+                    className="flex-grow outline-none text-gray-600 focus:text-violet-600" 
                     type="text" 
                     placeholder="Check address..." 
                 />
@@ -143,6 +144,7 @@ export default function Index(props: Props) {
         </main>
         <Footer />
       </div>
+    </div>
    
  
     </>
